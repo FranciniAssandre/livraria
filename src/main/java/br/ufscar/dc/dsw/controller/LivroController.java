@@ -6,9 +6,7 @@ import br.ufscar.dc.dsw.domain.Editora;
 import br.ufscar.dc.dsw.domain.Livro;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -76,17 +74,10 @@ public class LivroController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private Map<Long, String> getEditoras() {
-        Map<Long, String> editoras = new HashMap<>();
-        for (Editora editora : new EditoraDAO().getAll()) {
-            editoras.put(editora.getId(), editora.getNome());
-        }
-        return editoras;
-    }
-
     private void apresentaFormCadastro(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("editoras", getEditoras());
+        List<Editora> listaEditoras = new EditoraDAO().getAll();
+        request.setAttribute("listaEditoras", listaEditoras);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/livro/formulario.jsp");
         dispatcher.forward(request, response);
     }
@@ -95,8 +86,9 @@ public class LivroController extends HttpServlet {
             throws ServletException, IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         Livro livro = dao.get(id);
+        List<Editora> listaEditoras = new EditoraDAO().getAll();
         request.setAttribute("livro", livro);
-        request.setAttribute("editoras", getEditoras());
+        request.setAttribute("listaEditoras", listaEditoras);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/livro/formulario.jsp");
         dispatcher.forward(request, response);
     }
