@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,10 +28,9 @@
     <div class="container">
         <ul class="nav nav-tabs nav-fill mb-4">
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Menu Principal</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/">Menu Principal</a>
             </li>
             <li class="nav-item">
-                <%-- AJUSTE: Adicionado o caminho completo para o cadastro --%>
                 <a class="nav-link" href="${pageContext.request.contextPath}/livros/cadastro">Adicionar Novo Livro</a>
             </li>
         </ul>
@@ -60,13 +60,13 @@
                         <td>${livro.editora.nome}</td>
                         <td>${livro.autor}</td>
                         <td>${livro.ano}</td>
-                        <td>R$ ${livro.preco}</td>
                         <td>
-                                <%-- AJUSTE: Adicionado o caminho completo para edicao --%>
+                            <fmt:formatNumber value="${livro.preco}" type="currency" currencySymbol="R$" />
+                        </td>
+                        <td>
                             <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/livros/edicao?id=${livro.id}">Editar</a>
                         </td>
                         <td>
-                                <%-- AJUSTE: Adicionado o caminho completo para remocao --%>
                             <a class="btn btn-sm btn-danger" href="${pageContext.request.contextPath}/livros/remocao?id=${livro.id}"
                                onclick="return confirm('Tem certeza de que deseja excluir este item?');">
                                 Excluir
